@@ -7,15 +7,16 @@ from flask_cors import CORS
 from werkzeug.security import check_password_hash
 
 app = Flask(__name__)
-#CORS(app)  # Enable Cross-Origin Resource Sharing
-CORS(app, supports_credentials=True, origins=["http://localhost:3000"])
+CORS(app)  # Enable Cross-Origin Resource Sharing
+# CORS(app, supports_credentials=True, origins=["http://localhost:3000"])
 
 # MySQL 
 
 app.config['MYSQL_HOST'] = 'localhost'
-app.config['MYSQL_USER'] = 'root' 
-app.config['MYSQL_PASSWORD'] = 'root'  
-app.config['MYSQL_DB'] = 'player_db'  
+app.config['MYSQL_USER'] = 'root'  # Replace with your MySQL username
+app.config['MYSQL_PASSWORD'] = 'root'  # Replace with your MySQL password
+app.config['MYSQL_DB'] = 'player_db'  # Replace with your MySQL database name
+
 mysql = MySQL(app)
 
  
@@ -36,25 +37,11 @@ def login():
     data = request.get_json()
     username = data.get('username', None)
     password = data.get('password', None)
-
     if username is None or password is None:
         abort(400, description="Username and password are required.")
-    
-    if validate_user(username, password):
-        # Assuming the user table has a 'role' column
-        cursor = mysql.connection.cursor()
-        cursor.execute("SELECT role FROM users WHERE username = %s", (username,))
-        user = cursor.fetchone()
-        cursor.close()
-        
-        if user:
-            return jsonify({"message": "Login successful", "role": user[0]})
-        else:
-            abort(401, description="User not found.")
-
-    
+    if validate_user(username, password):  # Validate credentials
+        return jsonify({"message": "Login successful"})  # Just return a success message
     abort(401, description="Invalid username or password.")
-
 
 #----AddnewPlayer
 @app.route("/players", methods=["POST"])
@@ -125,4 +112,4 @@ def method_not_allowed(error):
     return jsonify({"error": "Method Not Allowed"}), 405
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(debug=True, ssl_context=('Local.crt', 'Local.key'))
