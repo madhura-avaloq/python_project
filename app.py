@@ -23,7 +23,7 @@ def validate_user(username, password):
     user = cursor.fetchone()
     cursor.close() 
     conn.close()
-    if user and check_password_hash(user[2], password):  # user[2] contains hashed password
+    if user and check_password_hash(user[2], password):  # 
         return True
     return False
 
