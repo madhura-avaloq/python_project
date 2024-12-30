@@ -1,5 +1,5 @@
 # Assign value to variables
-
+ 
 compartment_id = "ocid1.compartment.oc1..aaaaaaaaygmkzd3qzze5hoxhwmextmh43e3rmnzihdopcnnqy5p3tddyqh2a"
 
 source_id = "ocid1.image.oc1.ap-mumbai-1.aaaaaaaas36pyk6rlwikddubsplrbbfpjqz3xdrfv76i73434upzxnfq3vpq"

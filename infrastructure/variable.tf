@@ -1,7 +1,7 @@
 variable "compartment_id"{
     description = "ID for compartment"
     type = string
-}
+} 
 
 variable "source_id"{
     description = "image source ID for instance"
