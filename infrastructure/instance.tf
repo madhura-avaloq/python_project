@@ -1,6 +1,6 @@
 
 resource "oci_core_instance" "test_instance" {
-  availability_domain = "ORSi:AP-MUMBAI-1-AD-1"
+  availability_domain = var.availability_domain
   compartment_id      = var.compartment_id
   shape               = "VM.Standard.E2.1"
   create_vnic_details {
