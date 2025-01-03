@@ -1,5 +1,11 @@
 #!/bin/bash
 
+echo "****************************SCRIPT START*********************************"
+
+sudo yum install git -y
+
+cd /home/opc
+
 # Step 1: Clone the project repository from GitHub
 git clone https://github.com/madhura-avaloq/python_project.git
 
@@ -21,7 +27,8 @@ node -v
 # Step 7: Clean yum cache to save disk space
 sudo yum clean all
 
-# Step 8: Navigate to the backend directory
+echo "*********************************************************** FRONTEND"
+
 cd python_project/application/backend/
 
 # Step 9: Activate the Python virtual environment
@@ -50,6 +57,8 @@ deactivate
 # Step 16: Clean yum cache to save disk space
 sudo yum clean all
 
+echo "*********************************************************** BACKEND"
+
 ###################################################################
 # Step 1: Install MySQL and MySQL Server
 echo "Installing MySQL server..."
@@ -75,24 +84,22 @@ FLUSH PRIVILEGES;  # Apply changes
 EXIT;
 EOF
 
-# Step 6: Verify the change by listing databases with new root password
-echo "Verifying the new root password..."
-mysql -u root -p'Root@123' -e "SHOW DATABASES;"
 
-# Step 7: Login to MySQL using the new root password
-echo "Logging into MySQL..."
-mysql -u root -p'Root@123'
+echo "***********************************************************************MYSQL DONE"
+
+
+# Step 6: Create and populate the database
+echo "Creating and populating the database..."
+sudo mysql --user=root --password='Root@123' <<EOF
 
 echo "MySQL installation completed and root password set to 'Root@123'."
 ###############################################################
 
--- Step 1: Create the database for the Flask app
+
 CREATE DATABASE flask_app;
 
--- Step 2: Use the created database
 USE flask_app;
 
--- Step 3: Create the 'users' table with columns: id, username, password, role
 CREATE TABLE users (
     id INT AUTO_INCREMENT PRIMARY KEY,   -- Auto-incrementing ID for each user
     username VARCHAR(50) NOT NULL UNIQUE, -- Unique username
@@ -100,13 +107,11 @@ CREATE TABLE users (
     role VARCHAR(50) NOT NULL             -- Role of the user (e.g., admin, user)
 );
 
--- Sample Insert into 'users' table with sample data
-INSERT INTO users (username, password, role) 
-VALUES 
+INSERT INTO users (username, password, role)
+VALUES
 ('admin', 'pass1', 'admin'),   -- Sample admin user (password should be hashed)
 ('user', 'pass2', 'user');     -- Sample regular user (password should be hashed)
 
--- Step 4: Create the 'players' table with columns: id, name, age, team, position
 CREATE TABLE players (
     id INT AUTO_INCREMENT PRIMARY KEY,  -- Auto-incrementing ID for each player
     name VARCHAR(100) NOT NULL,         -- Player's name
@@ -115,14 +120,19 @@ CREATE TABLE players (
     position VARCHAR(50) NOT NULL       -- Position of the player in the team
 );
 
--- Sample Insert into 'players' table with sample data
-INSERT INTO players (name, age, team, position) 
-VALUES 
+INSERT INTO players (name, age, team, position)
+VALUES
 ('John Doe', 25, 'Team A', 'Forward'),    -- Sample player 1
 ('Jane Smith', 27, 'Team B', 'Goalkeeper'); -- Sample player 2
+EOF
 
--- Exit MySQL session
-EXIT;
+# Step 7: Verify the changes
+echo "Verifying the database and tables..."
+mysql -u root -p'Root@123' -e "SHOW DATABASES;"
+mysql -u root -p'Root@123' -e "USE flask_app; SHOW TABLES;"
+
+echo "***********************************************************************MYSQL DONE"
+
 
 
 pip3 install mysql-connector-python
@@ -131,13 +141,14 @@ pip3 install mysql-connector-python
 ################################################################################
 
 
-cd python_project/application/frontend/ 
+cd python_project/application/frontend/
 
 npm start
 
-cd python_project/application/backend/ 
+cd python_project/application/backend/
 
 source ./myenv/bin/activate
 
 python app.py
 
+echo "***************************************************************************DEPLOYMENT DONE"
