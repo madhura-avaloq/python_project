@@ -78,13 +78,17 @@ FLUSH PRIVILEGES;  # Apply changes
 EXIT;
 EOF
 
-# Step 6: Verify the change by listing databases with new root password
+# Step 6: Remove any cached credentials for MySQL
+echo "Flushing MySQL credentials cache..."
+sudo mysqladmin -u root -p'Root@123' flush-privileges
+
+# Step 7: Verify the new root password by listing databases
 echo "Verifying the new root password..."
 mysql -u root -p'Root@123' -e "SHOW DATABASES;"
 
-# Step 7: Login to MySQL using the new root password
+# Step 8: Login to MySQL using the new root password
 echo "Logging into MySQL..."
-mysql -u root -p'Root@123'
+mysql -u root -p'Root@123' -e "SELECT 'Successfully logged in using new password';"
 
 echo "MySQL installation completed and root password set to 'Root@123'."
 
