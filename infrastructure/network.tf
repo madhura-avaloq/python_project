@@ -1,17 +1,17 @@
 # Virtual Cloud Network (VCN)
 resource "oci_core_virtual_network" "vcn" {
-  compartment_id = var.compartment_id 
+  compartment_id = var.compartment_id
   display_name   = "app-vcn"
-  cidr_block     = "10.0.0.0/16" 
+  cidr_block     = "10.0.0.0/16"
   dns_label      = "myvcn"
 }
 
 # Subnet in the VCN
 resource "oci_core_subnet" "subnet" {
   compartment_id = var.compartment_id
-  vcn_id         = oci_core_virtual_network.vcn.id                                                    
+  vcn_id         = oci_core_virtual_network.vcn.id                              
   display_name   = "app-subnet"
-  cidr_block     = "10.0.1.0/24" 
+  cidr_block     = "10.0.1.0/24"
   dns_label = "mysubnet"
 }
 
@@ -31,13 +31,13 @@ resource "oci_core_route_table" "route_table" {
 
   route_rules {
     network_entity_id = oci_core_internet_gateway.internet_gateway.id
-    cidr_block = "0.0.0.0/0"  
+    cidr_block = "0.0.0.0/0"
 
   }
 }
 
 # Route Table with the Subnet
-resource "oci_core_route_table_attachment" "route_table_attachment" { 
+resource "oci_core_route_table_attachment" "route_table_attachment" {
   subnet_id = oci_core_subnet.subnet.id
   route_table_id =oci_core_route_table.route_table.id
 }
@@ -53,8 +53,8 @@ resource "oci_core_network_security_group" "nsg" {
 resource "oci_core_network_security_group_security_rule" "ssh_rule" {
   network_security_group_id = oci_core_network_security_group.nsg.id
   direction                = "INGRESS"
-  protocol                = "6"  
-  source                   = "0.0.0.0/0"  
+  protocol                = "6"
+  source                   = "0.0.0.0/0"
   source_type              = "CIDR_BLOCK"
    tcp_options {
         source_port_range {
@@ -69,8 +69,8 @@ resource "oci_core_network_security_group_security_rule" "ssh_rule" {
 resource "oci_core_network_security_group_security_rule" "python_rule" {
   network_security_group_id = oci_core_network_security_group.nsg.id
   direction                = "INGRESS"
-  protocol                = "6"  
-  source                   = "0.0.0.0/0"  
+  protocol                = "6"
+  source                   = "0.0.0.0/0"
   source_type              = "CIDR_BLOCK"
    tcp_options {
         source_port_range {
@@ -83,10 +83,10 @@ resource "oci_core_network_security_group_security_rule" "python_rule" {
 
 # Security Rule for the NSG
 resource "oci_core_network_security_group_security_rule" "react_rule" {
-  network_security_group_id = oci_core_network_security_group.app_nsg.id
+  network_security_group_id = oci_core_network_security_group.nsg.id
   direction                = "INGRESS"
-  protocol                = "6"  
-  source                   = "0.0.0.0/0"  
+  protocol                = "6"
+  source                   = "0.0.0.0/0"
   source_type              = "CIDR_BLOCK"
    tcp_options {
         source_port_range {
@@ -99,10 +99,10 @@ resource "oci_core_network_security_group_security_rule" "react_rule" {
 
 # Security Rule for the NSG
 resource "oci_core_network_security_group_security_rule" "http_rule" {
-  network_security_group_id = oci_core_network_security_group.app_nsg.id
+  network_security_group_id = oci_core_network_security_group.nsg.id
   direction                = "INGRESS"
-  protocol                = "6" 
-  source                   = "0.0.0.0/0"  
+  protocol                = "6"
+  source                   = "0.0.0.0/0"
   source_type              = "CIDR_BLOCK"
    tcp_options {
         source_port_range {
@@ -114,10 +114,10 @@ resource "oci_core_network_security_group_security_rule" "http_rule" {
 
 # EGRESS rule to allow all outbound traffic
 resource "oci_core_network_security_group_security_rule" "egress_rule" {
-  network_security_group_id = oci_core_network_security_group.app_nsg.id
+  network_security_group_id = oci_core_network_security_group.nsg.id
   direction                = "EGRESS"
-  protocol                = "all"  
-  destination              = "0.0.0.0/0"  
+  protocol                = "all"
+  destination              = "0.0.0.0/0"
   destination_type         = "CIDR_BLOCK"
   description             = "Allow all outbound traffic"
 }
