@@ -52,6 +52,8 @@ pip3 install flask
 # Step 15: Install Flask-CORS extension using pip3
 pip3 install flask_cors
 
+pip3 install mysql.connector
+
 deactivate
 
 # Step 16: Clean yum cache to save disk space
@@ -79,10 +81,10 @@ echo "Temporary root password: $temp_password"
 # Step 5: Secure MySQL installation and set root password to 'Root@123'
 echo "Securing MySQL installation..."
 sudo mysql --user=root --password="$temp_password" <<EOF
-ALTER USER 'root'@'localhost' IDENTIFIED BY 'Root@123';  # Set new root password
-FLUSH PRIVILEGES;  # Apply changes
-EXIT;
+ALTER USER 'root'@'localhost' IDENTIFIED BY 'Root@123'; 
+FLUSH PRIVILEGES; 
 EOF
+
 
 
 echo "***********************************************************************MYSQL DONE"
@@ -92,38 +94,34 @@ echo "***********************************************************************MYS
 echo "Creating and populating the database..."
 sudo mysql --user=root --password='Root@123' <<EOF
 
-echo "MySQL installation completed and root password set to 'Root@123'."
-###############################################################
-
-
 CREATE DATABASE flask_app;
 
 USE flask_app;
 
 CREATE TABLE users (
-    id INT AUTO_INCREMENT PRIMARY KEY,   -- Auto-incrementing ID for each user
-    username VARCHAR(50) NOT NULL UNIQUE, -- Unique username
-    password VARCHAR(255) NOT NULL,       -- Password (ideally hashed in production)
-    role VARCHAR(50) NOT NULL             -- Role of the user (e.g., admin, user)
+    id INT AUTO_INCREMENT PRIMARY KEY,  
+    username VARCHAR(50) NOT NULL UNIQUE, 
+    password VARCHAR(255) NOT NULL,       
+    role VARCHAR(50) NOT NULL            
 );
 
 INSERT INTO users (username, password, role)
 VALUES
-('admin', 'pass1', 'admin'),   -- Sample admin user (password should be hashed)
-('user', 'pass2', 'user');     -- Sample regular user (password should be hashed)
+('admin', 'pass1', 'admin'),   
+('user', 'pass2', 'user');     
 
 CREATE TABLE players (
-    id INT AUTO_INCREMENT PRIMARY KEY,  -- Auto-incrementing ID for each player
-    name VARCHAR(100) NOT NULL,         -- Player's name
-    age INT NOT NULL,                   -- Player's age
-    team VARCHAR(100) NOT NULL,         -- Team of the player
-    position VARCHAR(50) NOT NULL       -- Position of the player in the team
+    id INT AUTO_INCREMENT PRIMARY KEY,  
+    name VARCHAR(100) NOT NULL,        
+    age INT NOT NULL,                   
+    team VARCHAR(100) NOT NULL,         
+    position VARCHAR(50) NOT NULL       
 );
 
 INSERT INTO players (name, age, team, position)
 VALUES
-('John Doe', 25, 'Team A', 'Forward'),    -- Sample player 1
-('Jane Smith', 27, 'Team B', 'Goalkeeper'); -- Sample player 2
+('John Doe', 25, 'Team A', 'Forward'),   
+('Jane Smith', 27, 'Team B', 'Goalkeeper'); 
 EOF
 
 # Step 7: Verify the changes
@@ -133,22 +131,31 @@ mysql -u root -p'Root@123' -e "USE flask_app; SHOW TABLES;"
 
 echo "***********************************************************************MYSQL DONE"
 
-
-
-pip3 install mysql-connector-python
+pip3 install mysql-connector
 
 
 ################################################################################
 
+cd /home/opc/python_project/application/frontend || exit 1
 
-cd python_project/application/frontend/
+sudo chown -R opc:opc /home/opc/python_project/application/frontend
 
-npm start
+sudo npm install
 
-cd python_project/application/backend/
+echo "^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^FRONTEND DEPLOYMENT STARTED"
+
+
+nohup npm start > /home/opc/frontend.log 2>&1 &
+
+
+cd /home/opc/python_project/application/backend || exit 1
 
 source ./myenv/bin/activate
 
-python app.py
+echo "^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^BACKEND DEPLOYMENT STARTED"
+
+nohup python app.py > /home/opc/backend.log 2>&1 &
+
+
 
 echo "***************************************************************************DEPLOYMENT DONE"
