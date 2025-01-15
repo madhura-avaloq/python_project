@@ -5,7 +5,7 @@ resource "oci_core_virtual_network" "vcn" {
   cidr_block     = "10.0.0.0/16"
   dns_label      = "myvcn"
 }
-
+ 
 # Subnet in the VCN
 resource "oci_core_subnet" "subnet" {
   compartment_id = var.compartment_id

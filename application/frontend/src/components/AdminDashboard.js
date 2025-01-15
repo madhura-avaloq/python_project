@@ -9,7 +9,7 @@ import PlayerList from './PlayerList';
 const AdminDashboard = () => {
   const [players, setPlayers] = useState([]);
   const navigate = useNavigate();
-
+ 
   useEffect(() => {
     const userInfo = JSON.parse(localStorage.getItem('userInfo'));
     if (!userInfo || userInfo.role !== 'admin') {

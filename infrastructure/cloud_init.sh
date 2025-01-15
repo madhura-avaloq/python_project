@@ -4,7 +4,7 @@ echo "****************************SCRIPT START*********************************"
 
 sudo yum install git -y
 
-cd /home/opc
+cd /home/opc 
 
 # Step 1: Clone the project repository from GitHub
 git clone https://github.com/madhura-avaloq/python_project.git

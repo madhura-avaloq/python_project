@@ -14,7 +14,7 @@ export const login = async (username, password) => {
   } else {
     throw new Error(data.message);
   }
-};
+}; 
 
 export const getPlayers = async () => {
   const response = await fetch(`${API_URL}/players`);

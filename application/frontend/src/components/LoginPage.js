@@ -12,7 +12,7 @@ const LoginPage = () => {
 
   const handleLogin = async (e) => {
     e.preventDefault();
-    try {
+    try { 
       const user = await login(username, password);
       localStorage.setItem('userInfo', JSON.stringify(user));
       if (user.role === 'admin') {

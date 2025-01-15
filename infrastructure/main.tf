@@ -5,3 +5,4 @@ provider "oci" {
   private_key_path = "/home/opc/.oci/oci_project_key.pem"
   region           = "ap-mumbai-1"
 }
+ 

@@ -9,7 +9,7 @@ const Dashboard = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    
+     
     const fetchUserInfo = async () => {
       const user = await getOnePlayer(1);  
       if (user) {

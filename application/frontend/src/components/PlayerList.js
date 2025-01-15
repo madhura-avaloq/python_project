@@ -14,6 +14,6 @@ const PlayerList = ({ players, onDelete }) => {
       </ul>
     </div>
   );
-};
+}; 
 
 export default PlayerList;

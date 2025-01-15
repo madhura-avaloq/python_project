@@ -12,3 +12,4 @@ const PlayerItem = ({ player, onDelete }) => {
 };
 
 export default PlayerItem;
+ 

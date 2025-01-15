@@ -7,7 +7,7 @@ resource "oci_core_instance" "test_instance" {
     nsg_ids =       [oci_core_network_security_group.nsg.id]
   }
   display_name = "app_instance"
-
+ 
 shape_config{
  ocpus = 2
  memory_in_gbs = 16

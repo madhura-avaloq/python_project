@@ -15,7 +15,7 @@ const PlayerForm = ({ playerToEdit }) => {
       await updatePlayer(playerToEdit.id, { name, age, team, position });
     } else {
       await addPlayer({ name, age, team, position });
-    }
+    } 
     setName('');
     setAge('');
     setTeam('');
