@@ -27,7 +27,7 @@ def validate_user(username, password):
     return False
  
 #-----Login
-@app.route('/login', methods=['POST'])
+@app.route('/api/login', methods=['POST'])
 def login():
     data = request.get_json()
     username = data.get('username', None)
@@ -49,7 +49,7 @@ def login():
     abort(401, description="Invalid username or password.")
  
 #----Add new player
-@app.route("/players", methods=["POST"])
+@app.route("/api/players", methods=["POST"])
 def add_player():
     data = request.get_json()
     if not data or not data.get("name") or not data.get("age") or not data.get("team") or not data.get("position"):
@@ -66,7 +66,7 @@ def add_player():
     return jsonify({"message": "Player added successfully!"}), 201
  
 #---Get all players
-@app.route("/players", methods=["GET"])
+@app.route("/api/players", methods=["GET"])
 def get_players():
     conn = get_db_connection()
     cursor = conn.cursor(dictionary=True)
@@ -77,7 +77,7 @@ def get_players():
     return jsonify(players)
  
 #--Get player by ID
-@app.route("/players/<int:player_id>", methods=["GET"])
+@app.route("/api/players/<int:player_id>", methods=["GET"])
 def get_player(player_id):
     conn = get_db_connection()
     cursor = conn.cursor(dictionary=True)
@@ -90,7 +90,7 @@ def get_player(player_id):
     return jsonify(player)
  
 # Delete a player 
-@app.route("/players/<int:player_id>", methods=["DELETE"])
+@app.route("/api/players/<int:player_id>", methods=["DELETE"])
 def delete_player(player_id):
     conn = get_db_connection()
     cursor = conn.cursor()
@@ -101,7 +101,7 @@ def delete_player(player_id):
     return jsonify({"message": f"Player with id {player_id} successfully deleted !!"})
  
 # Edit player info
-@app.route("/players/<int:player_id>", methods=["PUT"])
+@app.route("/api/players/<int:player_id>", methods=["PUT"])
 def edit_player(player_id):
     data = request.get_json()
     conn = get_db_connection()

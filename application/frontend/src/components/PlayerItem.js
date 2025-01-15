@@ -9,6 +9,6 @@ const PlayerItem = ({ player, onDelete }) => {
       <button className="btn btn-danger btn-sm" onClick={() => onDelete(player.id)}>Delete</button>
     </li>
   );
-};
+}; 
 
 export default PlayerItem;

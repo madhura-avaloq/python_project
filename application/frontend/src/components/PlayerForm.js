@@ -10,7 +10,7 @@ const PlayerForm = ({ playerToEdit }) => {
   const [position, setPosition] = useState(playerToEdit?.position || '');
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
+    e.preventDefault(); 
     if (playerToEdit) {
       await updatePlayer(playerToEdit.id, { name, age, team, position });
     } else {

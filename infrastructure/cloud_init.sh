@@ -29,7 +29,9 @@ sudo yum clean all
 
 echo "*********************************************************** FRONTEND"
 
-cd python_project/application/backend/
+cd ..
+
+cd application/backend
 
 # Step 9: Activate the Python virtual environment
 source ./myenv/bin/activate
@@ -132,6 +134,7 @@ mysql -u root -p'Root@123' -e "USE flask_app; SHOW TABLES;"
 echo "***********************************************************************MYSQL DONE"
 
 pip3 install mysql-connector
+
 
 
 ################################################################################

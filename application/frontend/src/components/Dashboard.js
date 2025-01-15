@@ -16,7 +16,7 @@ const Dashboard = () => {
         console.log(user);
         setUserInfo(user);  
       } else {
-        navigate('/login');  
+        navigate('/app/login');  
       }
     };
 

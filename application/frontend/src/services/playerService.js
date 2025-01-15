@@ -1,6 +1,6 @@
 // src/services/playerService.js
 
-const API_URL = 'http://141.148.210.44:5000';
+const API_URL = 'http://141.148.210.44:5000/app';
 
 export const login = async (username, password) => {
   const response = await fetch(`${API_URL}/login`, {

@@ -16,9 +16,9 @@ const LoginPage = () => {
       const user = await login(username, password);
       localStorage.setItem('userInfo', JSON.stringify(user));
       if (user.role === 'admin') {
-        navigate('/admin');  // Admin dashboard
+        navigate('/app/admin');  // Admin dashboard
       } else {
-        navigate('/dashboard');  // User dashboard
+        navigate('/app/dashboard');  // User dashboard
       }
     } catch (error) {
       setErrorMessage('Invalid username or password');
